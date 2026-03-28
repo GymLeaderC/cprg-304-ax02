@@ -80,26 +80,62 @@ public class MyArrayList<E> implements ListADT<E> {
 
 	@Override
 	public boolean addAll(ListADT<? extends E> toAdd) throws NullPointerException {
-		// TODO Auto-generated method stub
-		return false;
+		
+		if (toAdd == null) {
+			throw new NullPointerException();
+		}
+		
+		Iterator<? extends E> it = toAdd.iterator();
+		while (it.hasNext()) {
+			add(it.next());
+		}
+		
+		return true;
 	}
 
 	@Override
 	public E get(int index) throws IndexOutOfBoundsException {
-		// TODO Auto-generated method stub
-		return null;
+		
+		if (index < 0 || index >= size) {
+			throw new IndexOutOfBoundsException();
+		}
+		
+		return (E) array[index];
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public E remove(int index) throws IndexOutOfBoundsException {
-		// TODO Auto-generated method stub
-		return null;
+
+		if (index < 0 || index >= size) {
+			throw new IndexOutOfBoundsException();
+		}
+		
+		E removed = (E) array[index];
+		
+		for (int i = index; i < size - 1; i++) {
+			array[i] = array[i + 1];
+		}
+		
+		array[size - 1] = null;
+		size--;
+		return removed;
 	}
 
 	@Override
 	public E remove(E toRemove) throws NullPointerException {
-		// TODO Auto-generated method stub
-		return null;
+
+		if (toRemove == null) {
+			throw new NullPointerException();
+		}
+		
+		for (int i = 0; i < size; i++) {
+			if (toRemove.equals(array[i])) {
+				return remove(i);
+			}	
+		}
+		
+		return null;	
 	}
 
 	@Override
