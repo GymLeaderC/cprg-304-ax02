@@ -36,8 +36,8 @@ public class MyArrayList<E> implements ListADT<E> {
 
 	@Override
 	public void clear() {
-		// TODO Auto-generated method stub
-		
+		array = new Object[DEFAULT_CAPACITY];
+		size = 0;
 	}
 
 	@Override
@@ -94,6 +94,8 @@ public class MyArrayList<E> implements ListADT<E> {
 	}
 
 	@Override
+	@SuppressWarnings("unchecked")
+	
 	public E get(int index) throws IndexOutOfBoundsException {
 		
 		if (index < 0 || index >= size) {
@@ -103,8 +105,8 @@ public class MyArrayList<E> implements ListADT<E> {
 		return (E) array[index];
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
+	@SuppressWarnings("unchecked")
 	public E remove(int index) throws IndexOutOfBoundsException {
 
 		if (index < 0 || index >= size) {
@@ -139,9 +141,20 @@ public class MyArrayList<E> implements ListADT<E> {
 	}
 
 	@Override
+	@SuppressWarnings("unchecked")
 	public E set(int index, E toChange) throws NullPointerException, IndexOutOfBoundsException {
-		// TODO Auto-generated method stub
-		return null;
+
+		if (toChange == null) {
+			throw new NullPointerException();
+		}
+		
+		if (index < 0 || index >= size) {
+			throw new IndexOutOfBoundsException();
+		}
+		
+		E replaced = (E) array[index];
+		array[index] = toChange;
+		return replaced;
 	}
 
 	@Override
@@ -151,26 +164,63 @@ public class MyArrayList<E> implements ListADT<E> {
 
 	@Override
 	public boolean contains(E toFind) throws NullPointerException {
-		// TODO Auto-generated method stub
+
+		if (toFind == null) {
+			throw new NullPointerException();
+		}
+		
+		for (int i = 0; i < size; i++) {
+			if (toFind.equals(array[i])) {
+				return true;
+			} 
+		}
+		
 		return false;
 	}
 
 	@Override
+	@SuppressWarnings("unchecked")
 	public E[] toArray(E[] toHold) throws NullPointerException {
-		// TODO Auto-generated method stub
-		return null;
+
+		if (toHold == null) {
+			throw new NullPointerException();
+		}
+		
+		if (toHold.length < size) {
+			toHold = (E[]) new Object[size];
+		}
+		
+		for (int i = 0; i < size; i++) {
+			toHold[i] = (E) array[i];
+		}
+		
+		return toHold;
 	}
 
 	@Override
 	public Object[] toArray() {
-		// TODO Auto-generated method stub
-		return null;
+		return Arrays.copyOf(array, size);
 	}
 
 	@Override
+	@SuppressWarnings("unchecked")
 	public Iterator<E> iterator() {
-		// TODO Auto-generated method stub
-		return null;
+
+		return new Iterator<E>() {
+			private int cursor = 0;
+			
+			@Override
+			public boolean hasNext() {
+				return cursor < size;
+			}
+			
+			@Override
+			public E next() {
+				E element = (E) array[cursor];
+				cursor++;
+				return element;
+			}
+		};
 	}
 
 }
