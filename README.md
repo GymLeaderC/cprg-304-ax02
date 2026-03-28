@@ -55,6 +55,9 @@ Ensure your project is checked in the list and click Finish.
 The project should now appear in your Package Explorer or Project Explorer panel.
 Right-click the project and select Refresh if files do not appear immediately.
 
+### 10. Switch to your Branch before Coding
+
+Use the git command `git switch branch-name` to switch over to your branch before coding. Each branch is named after each individual team member.
 
 ## Troubleshooting
 
