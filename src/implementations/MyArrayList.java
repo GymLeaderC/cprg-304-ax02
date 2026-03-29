@@ -277,7 +277,7 @@ public class MyArrayList<E> implements ListADT<E> {
 		}
 		
 		if (toHold.length < size) {
-			toHold = (E[]) new Object[size];
+			toHold = (E[]) Arrays.copyOf(array, size, toHold.getClass());
 		}
 		
 		for (int i = 0; i < size; i++) {
