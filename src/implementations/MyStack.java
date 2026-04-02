@@ -13,13 +13,12 @@
 
 package implementations;
 
+import utilities.Iterator;
 import utilities.StackADT;
 
 import java.util.Arrays;
 import java.util.EmptyStackException;
 import java.util.NoSuchElementException;
-
-import utilities.Iterator;
 
 public class MyStack<E> implements StackADT<E> {
 	private MyArrayList<E> list;
@@ -207,12 +206,10 @@ public class MyStack<E> implements StackADT<E> {
 		return new Iterator<E>() {
 			private int cursor = list.size() - 1;
 			
-			@Override
 			public boolean hasNext() {
 				return cursor >= 0;
 			}
 			
-			@Override
 			public E next() {
 				if (!hasNext()) {
 					throw new NoSuchElementException();
