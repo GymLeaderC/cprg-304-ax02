@@ -9,8 +9,8 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import utilities.Iterator;
 import implementations.MyStack;
+import utilities.Iterator;
 
 /**
  * @author kitty, maryam
@@ -146,7 +146,7 @@ public class StackTest
 
 	/**
 	 * Test method for
-	 * {@link implementations.MyStack#equals(utilities.MyStack)}
+	 * {@link implementations.MyStack#equals(implementations.MyStack)}
 	 * to return true when the two stacks are equal.
 	 */
 	@Test
@@ -168,7 +168,7 @@ public class StackTest
 
 	/**
 	 * Test method for
-	 * {@link implementations.MyStack#equals(utilities.MyStack)}
+	 * {@link utilities.MyStack#equals(utilities.MyStack)}
 	 * to return false when the two stacks are not equal.
 	 */
 	@Test
@@ -201,7 +201,7 @@ public class StackTest
 
 	/**
 	 * Test method for 
-	 * {@link implementations.MyStack#isEmpty()}
+	 * {@link utilities.MyStack#isEmpty()}
 	 * to return true when the stack is empty.
 	 */
 	@Test
@@ -212,7 +212,7 @@ public class StackTest
 
 	/**
 	 * Test method for 
-	 * {@link implementations.MyStack#isEmpty()}
+	 * {@link utilities.MyStack#isEmpty()}
 	 * to return false when the stack is not empty.
 	 */
 	@Test
@@ -227,7 +227,7 @@ public class StackTest
 
 
 	/**
-	 * Test method for {@link implementations.MyStack#iterator()}
+	 * Test method for {@link utilities.MyStack#iterator()}
 	 * to return an iterator to iterate over items in the stack from top to bottom.
 	 */
 	@Test
@@ -266,7 +266,7 @@ public class StackTest
 	}
 	
 	/**
-	 * Test method for {@link implementations.MyStack#iterator()}
+	 * Test method for {@link utilities.MyStack#iterator()}
 	 * to return an iterator to iterate over items in an empty stack.
 	 */
 	@Test
@@ -291,7 +291,7 @@ public class StackTest
 
 	/**
 	 * Test method for 
-	 * {@link implementations.MyStack#peek()}
+	 * {@link utilities.MyStack#peek()}
 	 * to return the item on the top of the stack without removing it.
 	 * 
 	 * @throws EmptyStackException
@@ -314,7 +314,7 @@ public class StackTest
 
 	/**
 	 * Test method for 
-	 * {@link implementations.MyStack#peek()}
+	 * {@link utilities.MyStack#peek()}
 	 * to throw EmptyStackException when peeking at the top of an empty stack.
 	 */
 	@Test
@@ -334,7 +334,7 @@ public class StackTest
 
 	/**
 	 * Test method for 
-	 * {@link implementations.MyStack#pop()}
+	 * {@link utilities.MyStack#pop()}
 	 * to remove the item on top of the stack.
 	 * 
 	 * @throws EmptyStackException
@@ -357,7 +357,7 @@ public class StackTest
 
 	/**
 	 * Test method for 
-	 * {@link implementations.MyStack#pop()}
+	 * {@link utilities.MyStack#pop()}
 	 * to throw EmptyStackException when removing from an empty stack.
 	 */
 	@Test
@@ -377,7 +377,7 @@ public class StackTest
 
 	/**
 	 * Test method for 
-	 * {@link implementations.MyStack#push(java.lang.Object)}
+	 * {@link utilities.MyStack#push(java.lang.Object)}
 	 * to add multiple items to top of the stack.
 	 * 
 	 * @throws EmptyStackException
@@ -413,7 +413,7 @@ public class StackTest
 
 	/**
 	 * Test method for 
-	 * {@link implementations.MyStack#push(java.lang.Object)}
+	 * {@link utilities.MyStack#push(java.lang.Object)}
 	 * to throw a NullPointerException when adding a null to the stack.
 	 */
 	@Test
@@ -437,7 +437,7 @@ public class StackTest
 
 	/**
 	 * Test method for 
-	 * {@link implementations.MyStack#search(java.lang.Object)}
+	 * {@link utilities.MyStack#search(java.lang.Object)}
 	 * to return the position of an item at the bottom of the stack.
 	 */
 	@Test
@@ -456,7 +456,7 @@ public class StackTest
 
 	/**
 	 * Test method for 
-	 * {@link implementations.MyStack#search(java.lang.Object)}
+	 * {@link utilities.MyStack#search(java.lang.Object)}
 	 * to return the position of an item at the top of the stack.
 	 */
 	@Test
@@ -475,7 +475,7 @@ public class StackTest
 
 	/**
 	 * Test method for 
-	 * {@link implementations.MyStack#search(java.lang.Object)}
+	 * {@link utilities.MyStack#search(java.lang.Object)}
 	 * to return the position of an item in the middle of the stack.
 	 */
 	@Test
@@ -494,7 +494,7 @@ public class StackTest
 	
 	/**
 	 * Test method for 
-	 * {@link implementations.MyStack#search(java.lang.Object)}
+	 * {@link utilities.MyStack#search(java.lang.Object)}
 	 * to return -1 when the item is not found in the stack.
 	 */
 	@Test
@@ -550,7 +550,7 @@ public class StackTest
 
 	/**
 	 * Test method for 
-	 * {@link implementations.MyStack#toArray()}
+	 * {@link utilities.MyStack#toArray()}
 	 * to return an Object array containing all the items in the stack from top to bottom.
 	 */
 	@Test
@@ -573,7 +573,7 @@ public class StackTest
 
 	/**
 	 * Test method for 
-	 * {@link implementations.MyStack#toArray(E[])}
+	 * {@link utilities.MyStack#toArray(E[])}
 	 * returning an array containing all items in the stack when the array passed has sufficient length.
 	 */
 	@Test
@@ -597,7 +597,7 @@ public class StackTest
 	
 	/**
 	 * Test method for 
-	 * {@link implementations.MyStack#toArray(E[])}
+	 * {@link utilities.MyStack#toArray(E[])}
 	 * returning an array containing all items in the stack when the array passed doesn't have
 	 *  sufficient length.
 	 */
@@ -623,7 +623,7 @@ public class StackTest
 
 	/**
 	 * Test method for 
-	 * {@link implementations.MyStack#toArray(E[])}
+	 * {@link utilities.MyStack#toArray(E[])}
 	 * to throw NullPointerException when a null is passed.
 	 */@Test
 	public void testToArrayNullArray()
@@ -642,7 +642,7 @@ public class StackTest
 	 
 	/**
 	 * Test method for 
-	 * {@link implementations.MyStack#stackOverflow(E[])}
+	 * {@link utilities.MyStack#stackOverflow(E[])}
 	 * to return false since the stack doesn't have a fixed size .
 	 */@Test
 	public void testStackoverflow()
