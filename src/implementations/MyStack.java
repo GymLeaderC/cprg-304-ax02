@@ -230,6 +230,8 @@ public class MyStack<E> implements StackADT<E> {
 	 */
 	@Override
 	public boolean equals(StackADT<E> that) {
+		if (that == null) return false;
+		if (this.size() != that.size()) return false;
 		// Create iterators for both stacks
 		Iterator<E> listIt = this.iterator();
 		Iterator<E> thatIt = that.iterator();

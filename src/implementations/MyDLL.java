@@ -14,6 +14,8 @@
 
 package implementations;
 
+import java.util.NoSuchElementException;
+
 import utilities.Iterator;
 import utilities.ListADT;
 
@@ -275,6 +277,9 @@ public class MyDLL<E> implements ListADT<E> {
 
             @Override
             public E next() {
+            	if (!hasNext()) {
+            		throw new NoSuchElementException();
+            	}
                 E data = current.getData();
                 current = current.getNext();
                 return data;
