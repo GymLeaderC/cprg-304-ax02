@@ -19,6 +19,8 @@ import java.util.Scanner;
 
 import implementations.MyArrayList;
 import implementations.MyStack;
+import implementations.MyQueue;
+import exceptions.EmptyQueueException;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -36,6 +38,7 @@ public class XMLParser {
 	public static MyArrayList<String> loadFile(String fileName) {
 		MyArrayList<String> data = new MyArrayList<>();
 		
+		
 		try {
 			Scanner scanner = new Scanner(new File(fileName));
 			while (scanner.hasNextLine()) {
@@ -51,55 +54,44 @@ public class XMLParser {
 	
 	public static void parseXML(MyArrayList<String> data) {
 		MyStack<String> tags = new MyStack<>();
+		MyQueue<String> errors = new MyQueue<>();
 		
 		for (int i = 0; i < data.size(); i++) {
 			String line = data.get(i).trim();
 			int lineNum = i + 1;
-			int pos = 0;
 			
-			while (pos < line.length()) {
-				// Get raw tag
-				int start = line.indexOf("<", pos);
-				int end = line.indexOf(">", start);
-				String rawTag = line.substring(start, end + 1);
-				
-				// Check for self-closing tag
-				if (rawTag.endsWith("/>")) {
-					System.out.println("Found self-closing tag");
-					pos = end + 1;
-					continue;
-				}
-				
-				// Check for processing instructions
-				if (line.startsWith("<?")) {
-					pos = end + 1;
-					continue;
-				}
-				
-				// Get tag name
-				String tagName = rawTag;
-				tagName = tagName.replace("</", "");
-				tagName = tagName.replace("/>", "");
-				tagName = tagName.replace("<", "");
-				tagName = tagName.replace(">", "");
-				String[] tagParts = tagName.trim().split(" ");
-				tagName = tagParts[0];
+			// Check for self-closing tag
+			if (line.endsWith("/>")) {
+				continue;
+			}
 			
-				// Find start tags and add to stack
-				if (!rawTag.startsWith("</")) {
-					tags.push(tagName);
-				}
+			// Check for processing instructions
+			if (line.endsWith("?>")) {
+				continue;
+			}
+			
+			// Find start tags and add to stack
+			if (!line.startsWith("</")) {
+				int start = 0;
+				int end = 0;
 				
-				// Find end tags and remove from stack
-				if (rawTag.startsWith("</")) {
-					// Check end tag matches top of stack
-					if (tags.peek().equals(tagName)) {
-						tags.pop();
-					}
-					// ** Add else statement for mismatching tags here **
+				while (start != -1) {
+					start = line.indexOf("<", start);
+					end = line.indexOf(" ", start);
+					String startTag = line.substring(start + 1, end);
+					tags.push(startTag);
 				}
+			}
+			
+			// Find end tags and remove from stack
+			if (line.startsWith("</")) {
+				String endTag = line.substring(2, line.length() - 1);
 				
-				pos = end + 1;
+				// Check end tag matches top of stack
+				if (tags.peek().equals(endTag)) {
+					tags.pop();
+				}
+				// ** Add else statement for mismatching tags here **
 			}
 		}
 	}
