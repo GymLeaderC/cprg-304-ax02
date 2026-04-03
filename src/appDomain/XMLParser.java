@@ -19,17 +19,27 @@ import java.util.Scanner;
 
 import implementations.MyArrayList;
 import implementations.MyStack;
-import implementations.MyQueue;
 import exceptions.EmptyQueueException;
 
+import implementations.MyQueue;
 import java.io.File;
 import java.io.FileNotFoundException;
 
 public class XMLParser {
 
 	public static void main(String[] args) {
+		
+		if (args.length == 0) {
+			System.out.println("No XML file provided");
+			return;
+		}
 		// Load XML File
 		MyArrayList<String> xmlData = loadFile(args[0]);
+		
+		if (xmlData.size() ==0) {
+			System.out.println("No xml data");
+			return;
+		}
 		
 		// Process XML File
 		parseXML(xmlData);		
@@ -37,7 +47,6 @@ public class XMLParser {
 	
 	public static MyArrayList<String> loadFile(String fileName) {
 		MyArrayList<String> data = new MyArrayList<>();
-		
 		
 		try {
 			Scanner scanner = new Scanner(new File(fileName));
@@ -54,45 +63,87 @@ public class XMLParser {
 	
 	public static void parseXML(MyArrayList<String> data) {
 		MyStack<String> tags = new MyStack<>();
-		MyQueue<String> errors = new MyQueue<>();
+		MyQueue<String> queue = new MyQueue<>();
 		
 		for (int i = 0; i < data.size(); i++) {
 			String line = data.get(i).trim();
-			int lineNum = i + 1;
+			int pos = 0;
 			
-			// Check for self-closing tag
-			if (line.endsWith("/>")) {
-				continue;
-			}
-			
-			// Check for processing instructions
-			if (line.endsWith("?>")) {
-				continue;
-			}
-			
-			// Find start tags and add to stack
-			if (!line.startsWith("</")) {
-				int start = 0;
-				int end = 0;
+			while (pos < line.length()) {
+				// Get raw tag
+				int start = line.indexOf("<", pos);
 				
-				while (start != -1) {
-					start = line.indexOf("<", start);
-					end = line.indexOf(" ", start);
-					String startTag = line.substring(start + 1, end);
-					tags.push(startTag);
+				if (start == -1) {
+					break;
 				}
-			}
-			
-			// Find end tags and remove from stack
-			if (line.startsWith("</")) {
-				String endTag = line.substring(2, line.length() - 1);
+				int end = line.indexOf(">", start);
+				if (end == -1) {
+					break;
 				
-				// Check end tag matches top of stack
-				if (tags.peek().equals(endTag)) {
-					tags.pop();
 				}
-				// ** Add else statement for mismatching tags here **
+				
+				String rawTag = line.substring(start, end + 1);
+				queue.enqueue(rawTag);
+										
+				pos = end + 1;
 			}
 		}
-	}
-}
+		try {
+			while (!queue.isEmpty()) {
+				String rawTag = queue.dequeue();
+				// Check for processing instructions
+				if (rawTag.startsWith("<?")) {
+					continue;
+				}
+							
+				// Check for self-closing tag
+				if (rawTag.endsWith("/>")) {
+					System.out.println("Found self-closing tag: " + rawTag);
+					continue;
+				}
+				
+				// Get tag name
+				String tagName = rawTag;
+				tagName = tagName.replace("</", "");
+				tagName = tagName.replace("/>", "");
+				tagName = tagName.replace("<", "");
+				tagName = tagName.replace(">", "");
+				String[] tagParts = tagName.trim().split(" ");
+				tagName = tagParts[0];
+
+				if (!rawTag.startsWith("</")) {
+					tags.push(tagName);
+				}
+				else {
+					if (tags.isEmpty()) {
+						System.out.println("Error: closing tag " + rawTag + " has no matching opening tag.");
+						return;
+					}
+					
+					if (tags.peek().equals(tagName)) {
+						tags.pop();
+					}
+					else {
+						System.out.println("Error: mismatched tag. Expected </" + tags.peek() + "> but found " + rawTag);
+						return;
+					}
+				}			
+			}
+			
+		}
+		
+		catch (EmptyQueueException e) {
+			System.out.println("Queue error: " + e.getMessage());
+			return;
+		}
+		
+		if (tags.isEmpty()) {
+			System.out.println("XML is valid.");
+		}
+		else {
+			System.out.println("Error: unclosed tag(s) remain.");
+		}
+			
+					
+	}	
+}	
