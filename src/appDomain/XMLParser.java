@@ -67,17 +67,28 @@ public class XMLParser {
 		
 		for (int i = 0; i < data.size(); i++) {
 			String line = data.get(i).trim();
+			int lineNum = i +1;
 			int pos = 0;
 			
 			while (pos < line.length()) {
+				
 				// Get raw tag
 				int start = line.indexOf("<", pos);
+				int strayClose = line.indexOf(">", pos);
+				
+				if (strayClose != -1 && (start == -1 || strayClose < start)) {
+					System.out.println("Error: stray > found in line "+ lineNum +": " + line);
+					pos = strayClose +1;
+					continue;
+				}
 				
 				if (start == -1) {
 					break;
 				}
+				
 				int end = line.indexOf(">", start);
 				if (end == -1) {
+					System.out.println("Error: tag missing closing > in line: "+ line);
 					break;
 				
 				}
@@ -117,16 +128,19 @@ public class XMLParser {
 				else {
 					if (tags.isEmpty()) {
 						System.out.println("Error: closing tag " + rawTag + " has no matching opening tag.");
-						return;
+						continue;
 					}
 					
 					if (tags.peek().equals(tagName)) {
 						tags.pop();
 					}
 					else {
-						System.out.println("Error: mismatched tag. Expected </" + tags.peek() + "> but found " + rawTag);
-						return;
+						System.out.println("Error: mismatched tag. Expected </" + tags.peek() + "> but found " + rawTag) ;
+						tags.pop();
+						continue;
 					}
+					
+					
 				}			
 			}
 			
