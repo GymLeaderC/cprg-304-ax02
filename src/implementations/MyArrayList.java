@@ -14,6 +14,7 @@
 
 package implementations;
 import java.util.Arrays;
+import java.util.NoSuchElementException;
 
 import utilities.Iterator;
 import utilities.ListADT;
@@ -318,6 +319,10 @@ public class MyArrayList<E> implements ListADT<E> {
 			
 			@Override
 			public E next() {
+				if (!hasNext()) {
+					throw new NoSuchElementException();
+				}
+				
 				E element = (E) array[cursor];
 				cursor++;
 				return element;
